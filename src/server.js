@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const crypto = require("crypto");
 const { promisify } = require("util");
 const exec = promisify(require("child_process").exec);
 const app = express();
@@ -16,18 +15,19 @@ if (!SECRET_TOKEN) {
 
 app.use(express.json());
 
-function verifySignature(req) {
-  const signature = crypto
-    .createHmac("sha1", SECRET_TOKEN)
-    .update(JSON.stringify(req.body))
-    .digest("hex");
-  return `sha1=${signature}` === req.headers["x-hub-signature"];
+function verifyToken(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return false;
+  }
+  const token = authHeader.split(" ")[1];
+  return token === SECRET_TOKEN;
 }
 
 app.post("/webhook/pull", async (req, res) => {
   console.log("Received webhook request");
 
-  if (!verifySignature(req)) {
+  if (!verifyToken(req)) {
     console.warn("Unauthorized webhook request");
     return res.status(401).send("Unauthorized");
   }
