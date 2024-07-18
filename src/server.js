@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const { exec } = require("child_process");
 const app = express();
 
-const PORT = 3001;
+const PORT = 3100;
 const REPO_PATH = "https://github.com/minai621/MJLog";
 const SECRET_TOKEN = process.env.PAT;
 
