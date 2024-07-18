@@ -24,7 +24,7 @@ function verifySignature(req) {
   return `sha1=${signature}` === req.headers["x-hub-signature"];
 }
 
-app.post("/webhook", async (req, res) => {
+app.post("/webhook/pull", async (req, res) => {
   console.log("Received webhook request");
 
   if (!verifySignature(req)) {
