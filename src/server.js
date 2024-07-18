@@ -34,7 +34,9 @@ app.post("/webhook/pull", async (req, res) => {
 
   try {
     console.log("Starting deployment process");
-    const { stdout, stderr } = await exec(`cd ${file_path} && ./deploy.sh`);
+    const { stdout, stderr } = await exec(`cd ${file_path} && ./deploy.sh`, {
+      timeout: 2 * 60 * 1000,
+    });
     console.log(`Deployment stdout: ${stdout}`);
     if (stderr) {
       console.error(`Deployment stderr: ${stderr}`);
