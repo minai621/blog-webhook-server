@@ -5,7 +5,7 @@ const exec = promisify(require("child_process").exec);
 const app = express();
 
 const PORT = process.env.PORT || 3100;
-const REPO_PATH = process.env.REPO_PATH || "/path/to/your/repo";
+const REPO_PATH = "https://github.com/minai621/MJLog";
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
 
 if (!SECRET_TOKEN) {
