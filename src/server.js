@@ -29,7 +29,7 @@ app.post("/webhook/pull", async (req, res) => {
 
   if (!verifyToken(req)) {
     console.warn("Unauthorized webhook request");
-    return res.status(401).send("Unauthorized");
+    return res.status(401).json({ error: "Unauthorized" }); // Return and terminate function
   }
 
   try {
@@ -42,10 +42,10 @@ app.post("/webhook/pull", async (req, res) => {
       console.error(`Deployment stderr: ${stderr}`);
     }
     console.log("Deployment successful");
-    res.status(200).send("Deployment successful");
+    return res.status(200).json({ status: 200, message: "success" }); // Return and terminate function
   } catch (error) {
     console.error(`Deployment failed: ${error.message}`);
-    res.status(500).send("Deployment failed");
+    return res.status(500).json({ status: 500, error: "Deployment failed" }); // Return and terminate function
   }
 });
 
