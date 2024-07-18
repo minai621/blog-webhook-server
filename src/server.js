@@ -3,9 +3,13 @@ const crypto = require("crypto");
 const { exec } = require("child_process");
 const app = express();
 
-const PORT = 3000;
+const PORT = 3001;
 const REPO_PATH = "https://github.com/minai621/MJLog";
 const SECRET_TOKEN = process.env.PAT;
+
+if (!SECRET_TOKEN) {
+  console.log("not found sercet token");
+}
 
 app.use(express.json());
 
